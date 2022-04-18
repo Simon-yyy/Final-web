@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+    <!--设置mybatis运行时的行为 -->
+    <settings>
+        <!--启用驼峰命名规则-->
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+        <!--防止oracle插入null值是报错-->
+        <setting name="jdbcTypeForNull" value="NULL"/>
+    </settings>
+
+    <!--取别名，不区分大小写，这样UserInfoMapper.xml的resultType可以直接写User或user -->
+    <!--为实体类起别名-->
+    <typeAliases>
+        <!-- 为单个类其别名（type：指定要取别名的类的全类名，默认别名为类名小写；alias：指定别名）  -->
+        <typeAlias type="com.cx.pojo.Brand" alias="Brand"/>
+        <!--<typeAlias type="com.cx.pojo.User" alias="User"/>-->
+
+        <!-- 为某个包下的类取别名，默认为类名小写 -->
+        <package name="com.cx.pojo"/>
+    </typeAliases>
+
+
+    <!--
+        environments:配置数据库的连接环境信息，可以配置多个environment，通过default属性切换不同的environment
+    -->
+    <environments default="test">
+        <environment id="development">
+            <transactionManager type="JDBC"/>   <!--事务管理-->
+            <dataSource type="POOLED">      <!--表示连接池技术-->
+                <!--数据库连接信息-->
+                <property name="driver" value="com.mysql.jdbc.Driver"/>
+                <!-- 下面的volunteer是数据库名，复制的时候记得修改！ -->
+                <property name="url" value="jdbc:mysql:///volunteer?useSSL=false&amp;userServerPrepStmts=true"/>
+                <property name="username" value="root"/>
+                <property name="password" value="123456"/>
+            </dataSource>
+        </environment>
+
+        <environment id="test">
+            <transactionManager type="JDBC"/>   <!--事务管理-->
+            <dataSource type="POOLED">      <!--表示连接池技术-->
+                <!--数据库连接信息-->
+                <property name="driver" value="com.mysql.jdbc.Driver"/>
+                <!-- 下面的volunteer是数据库名，复制的时候记得修改！ -->
+                <property name="url" value="jdbc:mysql:///volunteer?useSSL=false&amp;userServerPrepStmts=true"/>
+                <property name="username" value="root"/>
+                <property name="password" value="123456"/>
+            </dataSource>
+        </environment>
+
+
+    </environments>
+
+    <!--根据不同的数据库厂商执行不同的语句,需在映射sql中指定databaseId -->
+    <databaseIdProvider type="DB_VENDOR">
+        <property name="Mysql" value="mysql" />
+        <property name="Oracle" value="oracle" />
+    </databaseIdProvider>
+
+    <!--加载SQL映射文件-->
+    <!--com.cx.mapper创建时用反斜杠 / 替代 .  -->
+    <mappers>
+<!--        <mapper resource="com/cx/mapper/UserInfoMapper.xml"/>-->
+        <!--Mapper代理方式-->
+        <package name="com.cx.mapper"/>
+
+    </mappers>
+
+</configuration>
+
